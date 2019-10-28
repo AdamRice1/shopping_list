@@ -1,0 +1,95 @@
+<div id='wrapper'>
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand">Welcome <%= @ao.first_name %></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+        <li class="nav-item active">
+            <a class="nav-link" href="/list">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/list">List</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+        </li>
+        </ul>
+        </div>
+    </nav>
+  <div class="row">
+    <div class="col-md-8">
+    <h2>All Family Members</h2>
+        <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @users.each do |person| %>
+        <tr>
+            <th scope="row"><%= person.id %></th>
+            <td><%= person.first_name %></td>
+            <td><%= person.last_name %></td>
+            <td>
+            <form action='/destroy/<%= person.id %>' method='post'>
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <button class='btn btn-danger' type='submit'>Delete</button>
+            </form>
+            </td>
+        </tr>
+        <% end %>
+        </tbody>
+        </table>
+    </div>
+    <div class="col-md-4">
+        <h4>Add Family Member</h4>
+        <form action='/create_user' method='post'>
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <div class="form-group">
+            <label for="exampleInputEmail1">First Name</label>
+            <input name='user[first_name]' type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="First Name">
+            </div>
+            <div class="form-group">
+            <label for="exampleInputEmail1">Last Name</label>
+            <input name='user[last_name]' type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Last Name">
+            </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Email</label>
+            <input name='user[email]' type="email" class="form-control" id="exampleInputPassword1" placeholder='Email'>
+            </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input name='user[password]' type="password" class="form-control" id="exampleInputPassword1" placeholder='Password'>
+            </div>
+            <div class="form-group">
+            <label for="exampleInputPassword1">Confirm Password</label>
+            <input name='user[confirm_password]' type="password" class="form-control" id="exampleInputPassword1" placeholder='Password'>
+            </div>
+            <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      
+    </div>
+    <div class="col">
+      
+    </div>
+    <div class="col">
+            <% if flash[:alert] %>
+            <% flash[:alert].each do |error| %>
+        <div id='errors'><p><%= error %></p></div>
+        <% end %>
+        <% end %>
+    </div>
+  </div>
+</div>
+</div>
